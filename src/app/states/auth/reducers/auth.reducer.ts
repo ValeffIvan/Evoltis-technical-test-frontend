@@ -1,7 +1,20 @@
 // states/auth/reducers/auth.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
-import { AuthState, initialAuthState } from '../auth.state';
+
+// states/auth/auth.state.ts
+export interface AuthState {
+  token: string | null;
+  loading: boolean;
+  error: any | null;
+}
+
+export const initialAuthState: AuthState = {
+  token: null,
+  loading: false,
+  error: null
+};
+
 
 export const authReducer = createReducer(
   initialAuthState,

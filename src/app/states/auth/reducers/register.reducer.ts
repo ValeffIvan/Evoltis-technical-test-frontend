@@ -1,6 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import * as RegisterActions from '../actions/register.actions';
-import { RegisterState } from '../register.state';
+
+export interface RegisterState {
+  name: string | null;
+  token: string | null;
+  loading: boolean;
+  error: any | null;
+}
 
 const initialState: RegisterState = {
   name: null,
@@ -9,7 +15,7 @@ const initialState: RegisterState = {
   error: null
 };
 
-export const authReducer = createReducer(
+export const registerReducer = createReducer(
   initialState,
 
   on(RegisterActions.register, (state, action) => ({

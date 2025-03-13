@@ -8,7 +8,7 @@
           <input
             id="name"
             type="text"
-            formControlName="Nombre"
+            formControlName="name"
             pInputText
             placeholder="Ingresa tu nombre"
           />
@@ -52,14 +52,19 @@
             type="submit"
             pButton
             label="Registrar"
-            [disabled]="registerForm.invalid"
+            [disabled]="registerForm.invalid || (loading$ | async)"
             class="p-button-rounded p-mt-2"
           ></button>
         </div>
       </div>
     </form>
-    <div *ngIf="errorMessage" class="p-error p-text-center p-mt-3">
-      {{ errorMessage }}
+    <!-- Muestra error desde el store -->
+    <div *ngIf="errorMessage$ | async as error" class="p-error p-text-center p-mt-3">
+      {{ error }}
+    </div>
+    <!-- Puedes mostrar un spinner o un mensaje de carga si loading$ es true -->
+    <div *ngIf="loading$ | async" class="p-text-center p-mt-3">
+      Registrando...
     </div>
     <p class="p-text-center p-mt-3">
       ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a>

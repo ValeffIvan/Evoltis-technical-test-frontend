@@ -6,13 +6,13 @@ import * as RegisterActions from '../actions/register.actions';
 import { LoginService } from '../../../services/login/login.service';
 
 @Injectable()
-export class AuthEffects {
+export class RegisterEffects {
   constructor(private actions$: Actions, private loginService: LoginService) {}
 
   // Efecto para manejar el registro
-  register$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(RegisterActions.register), // escucha la acción 'register'
+  register$ = createEffect(() =>{
+    return this.actions$.pipe(
+      ofType(RegisterActions.register),
       mergeMap((action) =>
         this.loginService.register(action.name, action.email, action.password).pipe(
           map((user) => RegisterActions.registerSuccess({ name: user.name, token: user.token })),
@@ -20,7 +20,7 @@ export class AuthEffects {
         )
       )
     )
-  );
+});
 
 
 }

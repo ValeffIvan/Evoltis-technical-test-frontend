@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,6 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
+import * as RegisterActions from '../../states/auth/actions/register.actions';
+import { selectRegisterError, selectIsLoading } from '../../states/auth/selectors/register.selectors';
+import {registerReducer } from '../../states/auth/reducers/register.reducer';
+import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'app-register',
@@ -17,30 +23,33 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     InputTextModule,
     PasswordModule,
-    ButtonModule
+    ButtonModule,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm: FormGroup;
-  errorMessage: string = '';
+  errorMessage$: Observable<string | null>;
+  loading$: Observable<boolean>;
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    // Inicializamos el formulario con los controles y validadores necesarios
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private store: Store
+  ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
+
+    // Seleccionamos los valores del estado que nos interesan:
+    this.errorMessage$ = this.store.select(selectRegisterError);
+    this.loading$ = this.store.select(selectIsLoading);
   }
 
-  ngOnInit(): void {
-    // Puedes inicializar o recuperar información adicional si es necesario
-  }
-
-  // Validador personalizado para verificar que password y confirmPassword sean iguales
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
@@ -53,14 +62,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister(): void {
-    // Verificamos que el formulario sea válido
     if (this.registerForm.valid) {
-      console.log('Registro exitoso:', this.registerForm.value);
-
-      // Redirigimos al login luego de un registro exitoso
-      this.router.navigate(['/login']);
+      const { name, email, password } = this.registerForm.value;
+      // Se despacha la acción de registro
+      this.store.dispatch(RegisterActions.register({ name, email, password }));
     } else {
-      this.errorMessage = 'Por favor, completa todos los campos correctamente y asegúrate de que las contraseñas coincidan';
+      // Puedes optar por despachar una acción para notificar error o simplemente manejarlo en el componente
+      console.error('El formulario es inválido.');
     }
   }
 }

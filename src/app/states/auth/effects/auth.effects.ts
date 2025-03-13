@@ -8,8 +8,8 @@ import { LoginService } from '../../../services/login/login.service';
 
 @Injectable()
 export class AuthEffects {
-  login$ = createEffect(() =>
-    this.actions$.pipe(
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.login),
       mergeMap(({ email, password }) =>
         this.loginService.login(email, password).pipe(
@@ -18,7 +18,7 @@ export class AuthEffects {
         )
       )
     )
-  );
+  });
 
   constructor(
     private actions$: Actions,
