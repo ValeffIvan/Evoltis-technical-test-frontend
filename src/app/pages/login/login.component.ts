@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // Configuración del formulario reactivo con validadores
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const { username, password } = this.loginForm.value;
-    this.loginService.login(username, password).subscribe(
+    const { email, password } = this.loginForm.value;
+    this.loginService.login(email, password).subscribe(
       response => {
         console.log('Login exitoso', response);
       },

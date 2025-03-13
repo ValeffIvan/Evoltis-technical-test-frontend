@@ -1,0 +1,68 @@
+<div class="register-container">
+  <p-card header="Registro" styleClass="register-card">
+    <br>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="name">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="Nombre"
+            pInputText
+            placeholder="Ingresa tu nombre"
+          />
+        </div>
+        <br>
+        <div class="p-field">
+          <label for="email">Correo Electrónico</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            pInputText
+            placeholder="Ingresa tu correo electrónico"
+          />
+        </div>
+        <br>
+        <div class="p-field">
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            pPassword
+            placeholder="Ingresa tu contraseña"
+          />
+        </div>
+        <br>
+        <div class="p-field">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            pPassword
+            placeholder="Confirma tu contraseña"
+          />
+        </div>
+        <br>
+        <div class="p-field">
+          <button
+            type="submit"
+            pButton
+            label="Registrar"
+            [disabled]="registerForm.invalid"
+            class="p-button-rounded p-mt-2"
+          ></button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="errorMessage" class="p-error p-text-center p-mt-3">
+      {{ errorMessage }}
+    </div>
+    <p class="p-text-center p-mt-3">
+      ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a>
+    </p>
+  </p-card>
+</div>

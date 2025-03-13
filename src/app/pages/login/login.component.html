@@ -4,13 +4,13 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="p-fluid">
         <div class="p-field">
-          <label for="username">Usuario</label>
+          <label for="email">Correo Electrónico</label>
           <input
-            id="username"
+            id="email"
             type="text"
-            formControlName="username"
+            formControlName="email"
             pInputText
-            placeholder="Ingresa tu usuario"
+            placeholder="Ingresa tu correo electrónico"
           />
         </div>
         <br>
@@ -40,4 +40,8 @@
       {{ errorMessage }}
     </div>
   </p-card>
+  <p class="p-text-center p-mt-3">
+    <a routerLink="/register">¿No tienes una cuenta? Regístrate</a>
+  </p>
+
 </div>

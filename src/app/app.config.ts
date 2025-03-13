@@ -7,9 +7,10 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideHttpClient(), provideAnimationsAsync(),
+  providers: [provideRouter(routes), provideStore(), provideClientHydration(), provideHttpClient(), provideAnimationsAsync(),
     providePrimeNG({
         theme: {
             preset: Aura
