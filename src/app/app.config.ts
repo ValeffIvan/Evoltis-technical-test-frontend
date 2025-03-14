@@ -7,20 +7,26 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { StoreModule, provideStore } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { RegisterEffects } from './states/auth/effects/register.effects';
 import { registerReducer } from './states/auth/reducers/register.reducer';
 import { AuthEffects } from './states/auth/effects/auth.effects';
+import { VideoGamesEffects } from './states/auth/effects/table.effects';
+import { VideoGamesReducer } from './states/auth/reducers/table.reducer';
+import { authReducer } from './states/auth/reducers/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore({
-      register: registerReducer
+      auth: authReducer,
+      register: registerReducer,
+      videogames: VideoGamesReducer
     }),
     provideEffects([
       AuthEffects,
-      RegisterEffects
+      RegisterEffects,
+      VideoGamesEffects
     ]),
     provideClientHydration(),
     provideHttpClient(),

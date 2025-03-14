@@ -1,0 +1,20 @@
+<p-dialog header="Editar Videojuego" [(visible)]="displayDialog" [modal]="true" [closable]="true" [style]="{'width': '30vw'}">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="name">Nombre</label>
+      <input id="name" type="text" pInputText [(ngModel)]="editableVideoGame.name" />
+    </div>
+    <div class="p-field">
+      <label for="genre">Género</label>
+      <input id="genre" type="text" pInputText [(ngModel)]="editableVideoGame.genre" />
+    </div>
+    <div class="p-field">
+      <label for="note">Nota</label>
+      <input id="note" type="number" pInputText [(ngModel)]="editableVideoGame.note" />
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancelar" icon="pi pi-times" (click)="closeDialog()" class="p-button-text"></p-button>
+    <p-button label="Guardar" icon="pi pi-check" (click)="saveVideoGame()"></p-button>
+  </ng-template>
+</p-dialog>

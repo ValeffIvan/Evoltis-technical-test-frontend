@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,8 +10,6 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import * as RegisterActions from '../../states/auth/actions/register.actions';
 import { selectRegisterError, selectIsLoading } from '../../states/auth/selectors/register.selectors';
-import {registerReducer } from '../../states/auth/reducers/register.reducer';
-import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +32,6 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private store: Store
   ) {
     this.registerForm = this.fb.group({

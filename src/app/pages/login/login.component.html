@@ -30,18 +30,17 @@
             type="submit"
             pButton
             label="Iniciar Sesión"
-            [disabled]="loginForm.invalid"
+            [disabled]="loginForm.invalid || (loading$ | async)"
             class="p-button-rounded p-mt-2"
           ></button>
         </div>
       </div>
     </form>
-    <div *ngIf="errorMessage" class="p-error p-text-center p-mt-3">
+    <div *ngIf="errorMessage$ | async as errorMessage" class="p-error p-text-center p-mt-3">
       {{ errorMessage }}
     </div>
   </p-card>
   <p class="p-text-center p-mt-3">
     <a routerLink="/register">¿No tienes una cuenta? Regístrate</a>
   </p>
-
 </div>

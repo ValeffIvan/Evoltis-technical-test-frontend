@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginService } from '../../services/login/login.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../states/auth/actions/auth.actions';
+import { selectAuthError, selectAuthLoading } from '../../states/auth/selectors/auth.selectors';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -18,19 +21,19 @@ import { CardModule } from 'primeng/card';
     CardModule
   ],
   templateUrl: './login.component.html',
-  standalone: true,
-  styleUrl: './login.component.scss'
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage$ = this.store.select(selectAuthError);
+  loading$ = this.store.select(selectAuthLoading);
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     // Configuración del formulario reactivo con validadores
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
@@ -41,13 +44,6 @@ export class LoginComponent implements OnInit {
     }
 
     const { email, password } = this.loginForm.value;
-    this.loginService.login(email, password).subscribe(
-      response => {
-        console.log('Login exitoso', response);
-      },
-      error => {
-        this.errorMessage = 'Credenciales inválidas. Por favor, intenta nuevamente.';
-      }
-    );
+    this.store.dispatch(AuthActions.login({ email, password }));
   }
 }
