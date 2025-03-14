@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { VideoGames } from '../../pages/home/home.component';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../environment';
 
 export interface VideoGamesResponse {
   VideoGamesList: VideoGames[];
@@ -13,7 +14,7 @@ export interface VideoGamesResponse {
   providedIn: 'root'
 })
 export class TableService {
-  private apiUrl = 'https://localhost:44308/VideoGames';
+  private apiUrl = environment.API_URL+'VideoGames';
 
   constructor(private http: HttpClient) { }
 
