@@ -1,9 +1,9 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ import { AuthEffects } from './states/auth/effects/auth.effects';
 import { VideoGamesEffects } from './states/auth/effects/table.effects';
 import { VideoGamesReducer } from './states/auth/reducers/table.reducer';
 import { authReducer } from './states/auth/reducers/auth.reducer';
+import { AuthInterceptor } from './services/interceptor/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,11 +30,12 @@ export const appConfig: ApplicationConfig = {
       VideoGamesEffects
     ]),
     provideClientHydration(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
     provideAnimationsAsync(),
     providePrimeNG({
-        theme: {
-            preset: Aura
-        }
-    })]
+      theme: {
+        preset: Aura
+      }
+    })
+  ]
 };

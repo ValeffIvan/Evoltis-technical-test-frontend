@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import * as RegisterActions from '../actions/register.actions';
 import { LoginService } from '../../../services/login/login.service';
 import { Router } from '@angular/router';
-
+import * as AuthActions from '../actions/auth.actions';
 @Injectable()
 export class RegisterEffects {
   constructor(
@@ -31,6 +31,8 @@ export class RegisterEffects {
     )
   );
 
+
+
   registerSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -38,9 +40,10 @@ export class RegisterEffects {
         tap(({ name, token }) => {
           localStorage.setItem('token', token);
           localStorage.setItem('name', name);
-          this.router.navigate(['/home']);
-        })
-      ),
-    { dispatch: false }
+        }),
+        map(({ name, token }) => AuthActions.loginSuccess({ userName: name, token }))
+
+      )
   );
+
 }

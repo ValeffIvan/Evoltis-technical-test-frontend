@@ -27,7 +27,7 @@ export const registerReducer = createReducer(
   on(RegisterActions.registerSuccess, (state, { name, token }) => ({
     ...state,
     name,
-    token,
+    token: token,
     loading: false,
     error: null
   })),
