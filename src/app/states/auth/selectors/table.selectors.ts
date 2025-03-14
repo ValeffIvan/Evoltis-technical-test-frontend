@@ -1,4 +1,3 @@
-// table.selectors.ts
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { TableState } from '../reducers/table.reducer';
 

@@ -1,4 +1,3 @@
-// states/auth/effects/auth.effects.ts
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../actions/auth.actions';
@@ -21,15 +20,12 @@ export class AuthEffects {
     );
   });
 
-  // Efecto para almacenar el token y redirigir tras login exitoso
   loginRedirect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.loginSuccess),
       tap(({ userName, token }) => {
-        // Guarda el token en localStorage para mantener la sesión activa
         localStorage.setItem('userName', userName);
         localStorage.setItem('token', token);
-        // Redirige al usuario a la ruta '/home' donde se encuentra la tabla
         this.router.navigate(['/home']);
       })
     ),

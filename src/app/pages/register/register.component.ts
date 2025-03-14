@@ -42,7 +42,6 @@ export class RegisterComponent {
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
 
-    // Seleccionamos los valores del estado que nos interesan:
     this.errorMessage$ = this.store.select(selectRegisterError);
     this.loading$ = this.store.select(selectIsLoading);
   }
@@ -61,10 +60,8 @@ export class RegisterComponent {
   onRegister(): void {
     if (this.registerForm.valid) {
       const { name, email, password } = this.registerForm.value;
-      // Se despacha la acción de registro
       this.store.dispatch(RegisterActions.register({ name, email, password }));
     } else {
-      // Puedes optar por despachar una acción para notificar error o simplemente manejarlo en el componente
       console.error('El formulario es inválido.');
     }
   }

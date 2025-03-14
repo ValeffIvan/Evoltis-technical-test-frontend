@@ -3,7 +3,7 @@ import * as VideoGamesActions from '../actions/table.actions';
 import { VideoGames } from '../../../pages/home/home.component';
 
 export interface TableState {
-  videogames: VideoGames[];  // propiedad consistente
+  videogames: VideoGames[];
   filters: { id: string; name: string; genre: string; note: string };
   pageIndex: number;
   pageSize: number;
@@ -40,7 +40,7 @@ const _VideoGamesReducer = createReducer(
   })),
   on(VideoGamesActions.loadVideoGamesSuccess, (state, { data, total }) => ({
     ...state,
-    videogames: data,  // actualiza la lista en la propiedad "videogames"
+    videogames: data,
     totalRecords: total,
     loading: false
   })),
@@ -51,7 +51,7 @@ const _VideoGamesReducer = createReducer(
   })),
   on(VideoGamesActions.createVideoGameSuccess, (state, { videoGame }) => ({
     ...state,
-    videogames: [...state.videogames, videoGame],  // usar "videogames"
+    videogames: [...state.videogames, videoGame],
     totalRecords: state.totalRecords + 1,
     loading: false
   })),

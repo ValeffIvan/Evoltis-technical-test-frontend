@@ -1,4 +1,3 @@
-// auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 
@@ -14,7 +13,6 @@ export class AuthGuard implements CanActivate {
     if (token) {
       return true;
     }
-    // Si no existe token, redirige al login
     return this.router.parseUrl('/login');
   }
 }

@@ -1,4 +1,3 @@
-// states/auth/selectors/auth.selectors.ts
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { AuthState } from '../reducers/auth.reducer';
 

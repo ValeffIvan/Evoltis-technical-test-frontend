@@ -15,13 +15,11 @@ import { VideoGames } from '../../pages/home/home.component';
   styleUrls: ['./update-button.component.scss']
 })
 export class UpdateButtonComponent implements OnChanges {
-  // Recibimos el videojuego a editar
   @Input() videoGame: VideoGames | null = null;
   displayDialog: boolean = false;
   videoGameForm: FormGroup;
 
   constructor(private store: Store, private fb: FormBuilder) {
-    // Agregamos el control "id" al formulario. Este control no se mostrará en el template.
     this.videoGameForm = this.fb.group({
       id: [null, Validators.required],
       name: ['', Validators.required],
@@ -32,7 +30,6 @@ export class UpdateButtonComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['videoGame'] && this.videoGame) {
-      // Actualizamos el formulario con los datos del videojuego entrante, incluyendo el id.
       this.videoGameForm.patchValue({
         id: this.videoGame.id,
         name: this.videoGame.name,
@@ -44,7 +41,6 @@ export class UpdateButtonComponent implements OnChanges {
 
   openDialog(): void {
     if (this.videoGame) {
-      // Aseguramos cargar los datos actuales en el formulario, incluyendo el id.
       this.videoGameForm.patchValue({
         id: this.videoGame.id,
         name: this.videoGame.name,
@@ -61,7 +57,6 @@ export class UpdateButtonComponent implements OnChanges {
 
   saveVideoGame(): void {
     if (this.videoGameForm.valid) {
-      // Despacha la acción para actualizar el videojuego, incluyendo el id del formulario.
       this.store.dispatch(VideoGameActions.updateVideoGame({ videoGame: this.videoGameForm.value as VideoGames }));
       this.closeDialog();
     }

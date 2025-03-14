@@ -37,10 +37,8 @@ export class AddButtonComponent {
 
     saveVideoGame(): void {
       if (this.videoGameForm.valid) {
-        // Se envía la acción con los valores del formulario
         this.store.dispatch(VideoGameActions.createVideoGame({ videoGame: this.videoGameForm.value as VideoGames }));
         this.closeDialog();
-        // Reiniciamos el formulario a sus valores iniciales
         this.videoGameForm.reset({ name: '', genre: '', note: 0 });
       }
     }

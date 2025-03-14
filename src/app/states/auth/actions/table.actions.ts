@@ -38,7 +38,6 @@ export const createVideoGameFailure = createAction(
   props<{ error: any }>()
 );
 
-// Acciones para eliminar un videojuego
 export const deleteVideoGame = createAction(
   '[VideoGames Table] Delete VideoGame',
   props<{ id: number }>()

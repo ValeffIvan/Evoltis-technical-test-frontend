@@ -33,7 +33,7 @@ export interface VideoGames {
     CommonModule,
     TableModule,
     InputTextModule,
-    ReactiveFormsModule, // Se importa ReactiveFormsModule en lugar de FormsModule
+    ReactiveFormsModule,
     ButtonModule,
     AddButtonComponent,
     UpdateButtonComponent,
@@ -50,10 +50,8 @@ export class HomeComponent implements OnInit {
   pageSize$: Observable<number>;
   totalPages$: Observable<number>;
 
-  // Formulario reactivo para los filtros
   filterForm: FormGroup;
 
-  // Paginador
   first: number = 0;
   rows: number = 5;
   totalRecords: number = 0;
@@ -73,15 +71,12 @@ export class HomeComponent implements OnInit {
       map(total => Math.ceil(total / this.rows))
     );
 
-    // Inicializamos el formulario con los controles para cada filtro
     this.filterForm = this.fb.group({
       id: [''],
       name: [''],
       genre: [''],
       note: ['']
     });
-
-    // Se suscribe a los cambios del formulario para actualizar los filtros en NgRx
     this.filterForm.valueChanges
       .pipe(debounceTime(300))
       .subscribe(filters => {
@@ -141,7 +136,6 @@ export class HomeComponent implements OnInit {
   }
 
   onDelete(game: VideoGames): void {
-    console.log('Eliminar juego:', game);
     this.store.dispatch(VideoGameActions.deleteVideoGame({ id: game.id }));
   }
 }

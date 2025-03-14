@@ -1,6 +1,6 @@
 <p-menubar>
   <ng-template #start>
-      <span class="p-menubar-greeting">Hola! {{ name }}</span>
+      <span class="p-menubar-greeting">Hola! <span class="name">{{ name }}</span></span>
   </ng-template>
   <ng-template #end>
       <button pButton type="button" label="Salir" icon="pi pi-sign-out" (click)="logout()"></button>

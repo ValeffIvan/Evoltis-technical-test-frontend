@@ -13,19 +13,15 @@ export interface VideoGamesResponse {
   providedIn: 'root'
 })
 export class TableService {
-
-  // Asegúrate de ajustar la URL y ruta según la estructura de tu API
   private apiUrl = 'https://localhost:44308/VideoGames';
 
   constructor(private http: HttpClient) { }
 
-  // Función para obtener todos los videojuegos
   getVideoGames(pageIndex: number, pageSize: number, filters: any): Observable<VideoGames[]> {
     let params = new HttpParams()
       .set('page', (pageIndex + 1).toString())
       .set('pageSize', pageSize.toString());
 
-    // Agrega los filtros si existen
     if (filters.id) {
       params = params.set('id', filters.id);
     }
@@ -49,25 +45,15 @@ export class TableService {
       );
   }
 
-
-  // Función para obtener un videojuego por su ID
-  getVideoGameById(id: number): Observable<VideoGames> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<VideoGames>(url);
-  }
-
-  // Función para crear un nuevo videojuego
   createVideoGame(videoGame: VideoGames): Observable<VideoGames> {
     return this.http.post<VideoGames>(this.apiUrl, videoGame);
   }
 
-  // Función para actualizar un videojuego existente
   updateVideoGame(videoGame: VideoGames): Observable<VideoGames> {
     const url = `${this.apiUrl}/${videoGame.id}`;
     return this.http.put<VideoGames>(url, videoGame);
   }
 
-  // Función para eliminar un videojuego por su ID
   deleteVideoGame(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
