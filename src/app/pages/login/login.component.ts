@@ -8,7 +8,7 @@ import { CardModule } from 'primeng/card';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../states/auth/actions/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../states/auth/selectors/auth.selectors';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,7 +18,8 @@ import { selectAuthError, selectAuthLoading } from '../../states/auth/selectors/
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    CardModule
+    CardModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -31,7 +32,6 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    // Configuración del formulario reactivo con validadores
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

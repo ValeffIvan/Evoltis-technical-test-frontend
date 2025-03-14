@@ -10,7 +10,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import * as RegisterActions from '../../states/auth/actions/register.actions';
 import { selectRegisterError, selectIsLoading } from '../../states/auth/selectors/register.selectors';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -21,6 +21,7 @@ import { selectRegisterError, selectIsLoading } from '../../states/auth/selector
     InputTextModule,
     PasswordModule,
     ButtonModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']

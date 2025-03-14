@@ -1,1 +1,8 @@
-<p>header works!</p>
+<p-menubar>
+  <ng-template #start>
+      <span class="p-menubar-greeting">Hola! {{ name }}</span>
+  </ng-template>
+  <ng-template #end>
+      <button pButton type="button" label="Salir" icon="pi pi-sign-out" (click)="logout()"></button>
+  </ng-template>
+</p-menubar>

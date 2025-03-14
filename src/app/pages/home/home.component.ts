@@ -18,7 +18,7 @@ import * as VideoGameActions from '../../states/auth/actions/table.actions';
 import { ButtonModule } from 'primeng/button';
 import { AddButtonComponent } from "../../components/add-button/add-button.component";
 import { UpdateButtonComponent } from '../../components/update-button/update-button.component';
-
+import { HeaderComponent } from "../../components/header/header.component";
 
 export interface VideoGames {
   id: number;
@@ -30,7 +30,7 @@ export interface VideoGames {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TableModule, InputTextModule, FormsModule, ButtonModule, AddButtonComponent, UpdateButtonComponent],
+  imports: [CommonModule, TableModule, InputTextModule, FormsModule, ButtonModule, AddButtonComponent, UpdateButtonComponent, HeaderComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

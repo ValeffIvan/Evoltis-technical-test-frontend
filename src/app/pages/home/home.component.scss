@@ -1,9 +1,12 @@
-.dark-mode .p-button {
-  background-color: #444 !important;
-  color: #fff !important;
-  border: 1px solid #666 !important;
+.header-container{
+display: flex;
+justify-content: space-between;
+margin-top: 1rem;
 }
 
-.dark-mode .p-button:hover {
-  background-color: #555 !important;
+.tablewidht{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }

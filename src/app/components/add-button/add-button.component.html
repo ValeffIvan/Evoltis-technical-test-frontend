@@ -1,22 +1,36 @@
-<!-- Botón para abrir el diálogo -->
 <p-button label="Agregar Videojuego" icon="pi pi-plus" (click)="openDialog()"></p-button>
 
-<!-- Diálogo con formulario -->
-<p-dialog header="Agregar Videojuego" [(visible)]="displayDialog" [modal]="true" [closable]="true" [style]="{'width': '30vw'}">
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="name">Nombre</label>
-      <input id="name" type="text" pInputText [(ngModel)]="newVideoGame.name" />
+<p-dialog header="Agregar Videojuego" [(visible)]="displayDialog" [modal]="true" [closable]="true" [style]="{'width': '20vw'}">
+  <form [formGroup]="videoGameForm">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="name">Nombre</label>
+        <input id="name" type="text" pInputText formControlName="name" />
+        <div *ngIf="videoGameForm.get('name')?.invalid && (videoGameForm.get('name')?.dirty || videoGameForm.get('name')?.touched)" class="p-error">
+          El nombre es obligatorio.
+        </div>
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="genre">Género</label>
+        <input id="genre" type="text" pInputText formControlName="genre" />
+        <div *ngIf="videoGameForm.get('genre')?.invalid && (videoGameForm.get('genre')?.dirty || videoGameForm.get('genre')?.touched)" class="p-error">
+          El género es obligatorio.
+        </div>
+      </div>
+      <br>
+      <div class="p-field">
+        <label for="note">Nota</label>
+        <input id="note" type="number" pInputText formControlName="note" min="0" max="10" />
+        <!-- Mensajes de error para la nota -->
+        <div *ngIf="videoGameForm.get('note')?.invalid && (videoGameForm.get('note')?.dirty || videoGameForm.get('note')?.touched)" class="p-error">
+          <div *ngIf="videoGameForm.get('note')?.errors?.['min']">La nota mínima es 0.</div>
+          <div *ngIf="videoGameForm.get('note')?.errors?.['max']">La nota máxima es 10.</div>
+          <div *ngIf="videoGameForm.get('note')?.errors?.['required']">La nota es obligatoria.</div>
+        </div>
+      </div>
     </div>
-    <div class="p-field">
-      <label for="genre">Género</label>
-      <input id="genre" type="text" pInputText [(ngModel)]="newVideoGame.genre" />
-    </div>
-    <div class="p-field">
-      <label for="note">Nota</label>
-      <input id="note" type="number" pInputText [(ngModel)]="newVideoGame.note" />
-    </div>
-  </div>
+  </form>
   <ng-template pTemplate="footer">
     <p-button label="Cancelar" icon="pi pi-times" (click)="closeDialog()" class="p-button-text"></p-button>
     <p-button label="Guardar" icon="pi pi-check" (click)="saveVideoGame()"></p-button>

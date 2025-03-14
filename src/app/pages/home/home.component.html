@@ -1,81 +1,72 @@
-<div class="filter-row" style="margin-bottom: 1rem;">
-  <input type="text" pInputText [(ngModel)]="filters.id" (ngModelChange)="onFilterChange()" placeholder="Filtrar ID" style="margin-right: .5rem;" />
-  <input type="text" pInputText [(ngModel)]="filters.name" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nombre" style="margin-right: .5rem;" />
-  <input type="text" pInputText [(ngModel)]="filters.genre" (ngModelChange)="onFilterChange()" placeholder="Filtrar Género" style="margin-right: .5rem;" />
-  <input type="text" pInputText [(ngModel)]="filters.note" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nota" />
-  <app-add-button></app-add-button>
+<app-header></app-header>
+<div class="tablewidht">
+  <div class="header-container">
+    <div class="filter-row" style="margin-bottom: 1rem;">
+      <input type="text" pInputText [(ngModel)]="filters.id" (ngModelChange)="onFilterChange()" placeholder="Filtrar ID" style="margin-right: .5rem;" />
+      <input type="text" pInputText [(ngModel)]="filters.name" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nombre" style="margin-right: .5rem;" />
+      <input type="text" pInputText [(ngModel)]="filters.genre" (ngModelChange)="onFilterChange()" placeholder="Filtrar Género" style="margin-right: .5rem;" />
+      <input type="text" pInputText [(ngModel)]="filters.note" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nota" />
+    </div>
+      <app-add-button></app-add-button>
+  </div>
+
+  <p-table #dt [value]="(videoGames$ | async) ?? []"
+          [paginator]="true"
+          [rows]="rows"
+          [first]="first"
+          [rowsPerPageOptions]="[5, 10, 20]"
+          (onPage)="onPageChange($event)"
+          [loading]="loading$ | async">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Género</th>
+        <th>Nota</th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-game>
+      <tr>
+        <td>{{ game.id }}</td>
+        <td>{{ game.name }}</td>
+        <td>{{ game.genre }}</td>
+        <td>{{ game.note }}</td>
+        <!-- Botón para modificar -->
+        <td>
+          <p-button
+            type="button"
+            icon="pi pi-pencil"
+            (click)="onEdit(game)"
+            styleClass="p-button-rounded p-button-info"
+            tooltip="Editar"
+            tooltipOptions="{ position: 'top' }"
+            text
+            >
+          </p-button>
+        </td>
+        <!-- Botón para eliminar -->
+        <td>
+          <p-button
+            type="button"
+            icon="pi pi-trash"
+            (click)="onDelete(game)"
+            styleClass="p-button-rounded p-button-danger"
+            tooltip="Eliminar"
+            tooltipOptions="{ position: 'top' }"
+            text
+            >
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">No se encontraron videojuegos.</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
-
-<!-- Paginator personalizado fuera de la tabla -->
-<div class="mb-4">
-  <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" text></p-button>
-  <p-button type="button" icon="pi pi-refresh" (click)="reset()" text></p-button>
-  <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" text></p-button>
-</div>
-
-<p-table #dt [value]="(videoGames$ | async) ?? []"
-         [paginator]="true"
-         [rows]="rows"
-         [first]="first"
-         [rowsPerPageOptions]="[5, 10, 20]"
-         (onPage)="onPageChange($event)"
-         [loading]="loading$ | async">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Género</th>
-      <th>Nota</th>
-      <th>Modificar</th>
-      <th>Eliminar</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-game>
-    <tr>
-      <td>{{ game.id }}</td>
-      <td>{{ game.name }}</td>
-      <td>{{ game.genre }}</td>
-      <td>{{ game.note }}</td>
-      <!-- Botón para modificar -->
-      <td>
-        <p-button
-          type="button"
-          icon="pi pi-pencil"
-          (click)="onEdit(game)"
-          styleClass="p-button-rounded p-button-info"
-          tooltip="Editar"
-          tooltipOptions="{ position: 'top' }"
-          >
-        </p-button>
-      </td>
-      <!-- Botón para eliminar -->
-      <td>
-        <p-button
-          type="button"
-          icon="pi pi-trash"
-          (click)="onDelete(game)"
-          styleClass="p-button-rounded p-button-danger"
-          tooltip="Eliminar"
-          tooltipOptions="{ position: 'top' }"
-          text
-          >
-        </p-button>
-      </td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="6">No se encontraron videojuegos.</td>
-    </tr>
-  </ng-template>
-
-  <!-- Botones adicionales en el paginator interno -->
-  <ng-template pTemplate="paginatorleft">
-    <p-button type="button" icon="pi pi-plus" text></p-button>
-  </ng-template>
-  <ng-template pTemplate="paginatorright">
-    <p-button type="button" icon="pi pi-cloud" text></p-button>
-  </ng-template>
-</p-table>
 
 <app-update-button [videoGame]="selectedGame"></app-update-button>

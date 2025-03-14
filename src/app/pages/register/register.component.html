@@ -1,5 +1,5 @@
 <div class="register-container">
-  <p-card header="Registro" styleClass="register-card">
+  <p-card header="Registro" Class="register-card">
     <br>
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
       <div class="p-fluid">
@@ -66,8 +66,8 @@
     <div *ngIf="loading$ | async" class="p-text-center p-mt-3">
       Registrando...
     </div>
-    <p class="p-text-center p-mt-3">
-      ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a>
-    </p>
   </p-card>
+  <p class="p-text-center p-mt-3">
+    <a routerLink="/login">¿Ya tienes una cuenta? Inicia sesión</a>
+  </p>
 </div>
