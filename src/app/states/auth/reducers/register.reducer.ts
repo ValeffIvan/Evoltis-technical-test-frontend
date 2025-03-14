@@ -35,6 +35,6 @@ export const registerReducer = createReducer(
   on(RegisterActions.registerFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error: error
   }))
 );

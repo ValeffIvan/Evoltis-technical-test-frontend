@@ -26,6 +26,10 @@
           />
         </div>
         <br>
+        <div *ngIf="errorMessage$ | async as errorMessage" class="p-error p-text-center p-mt-3 p-mb-3">
+          {{ errorMessage }}
+        </div>
+        <br>
         <div class="p-field">
           <button
             type="submit"
@@ -37,9 +41,7 @@
         </div>
       </div>
     </form>
-    <div *ngIf="errorMessage$ | async as errorMessage" class="p-error p-text-center p-mt-3">
-      {{ errorMessage }}
-    </div>
+
   </p-card>
   <p class="p-text-center p-mt-3">
     <a routerLink="/register">¿No tienes una cuenta? <span class="register"> Regístrate</span></a>

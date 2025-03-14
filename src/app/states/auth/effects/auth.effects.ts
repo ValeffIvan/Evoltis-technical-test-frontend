@@ -14,7 +14,11 @@ export class AuthEffects {
       mergeMap(({ email, password }) =>
         this.loginService.login(email, password).pipe(
           map(response => AuthActions.loginSuccess({userName: response.name, token: response.token })),
-          catchError(error => of(AuthActions.loginFailure({ error })))
+          catchError(error => {
+            const errorMsg = error.error?.title || error.error || 'Ocurrió un error';
+            return of(AuthActions.loginFailure({ error: errorMsg }));
+          })
+
         )
       )
     );

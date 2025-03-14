@@ -22,7 +22,10 @@ export class RegisterEffects {
           map((user) =>
             RegisterActions.registerSuccess({ name: user.name, token: user.token })
           ),
-          catchError((error) => of(RegisterActions.registerFailure({ error })))
+          catchError(error => {
+            const errorMsg = error.error?.title || error.error || 'Ocurrió un error';
+            return of(RegisterActions.registerFailure({ error: errorMsg }));
+          })
         )
       )
     )
