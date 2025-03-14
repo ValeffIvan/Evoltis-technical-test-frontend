@@ -1,22 +1,23 @@
 <app-header></app-header>
 <div class="tablewidht">
   <div class="header-container">
-    <div class="filter-row" style="margin-bottom: 1rem;">
-      <input type="text" pInputText [(ngModel)]="filters.id" (ngModelChange)="onFilterChange()" placeholder="Filtrar ID" style="margin-right: .5rem;" />
-      <input type="text" pInputText [(ngModel)]="filters.name" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nombre" style="margin-right: .5rem;" />
-      <input type="text" pInputText [(ngModel)]="filters.genre" (ngModelChange)="onFilterChange()" placeholder="Filtrar Género" style="margin-right: .5rem;" />
-      <input type="text" pInputText [(ngModel)]="filters.note" (ngModelChange)="onFilterChange()" placeholder="Filtrar Nota" />
-    </div>
-      <app-add-button></app-add-button>
+    <!-- Se utiliza un formGroup para los filtros -->
+    <form [formGroup]="filterForm" class="filter-row" style="margin-bottom: 1rem;">
+      <input type="text" pInputText formControlName="id" placeholder="Filtrar ID" style="margin-right: .5rem;" />
+      <input type="text" pInputText formControlName="name" placeholder="Filtrar Nombre" style="margin-right: .5rem;" />
+      <input type="text" pInputText formControlName="genre" placeholder="Filtrar Género" style="margin-right: .5rem;" />
+      <input type="number" pInputText formControlName="note" placeholder="Filtrar Nota" />
+    </form>
+    <app-add-button></app-add-button>
   </div>
 
   <p-table #dt [value]="(videoGames$ | async) ?? []"
-          [paginator]="true"
-          [rows]="rows"
-          [first]="first"
-          [rowsPerPageOptions]="[5, 10, 20]"
-          (onPage)="onPageChange($event)"
-          [loading]="loading$ | async">
+           [paginator]="true"
+           [rows]="rows"
+           [first]="first"
+           [rowsPerPageOptions]="[5, 10, 20]"
+           (onPage)="onPageChange($event)"
+           [loading]="loading$ | async">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -33,7 +34,6 @@
         <td>{{ game.name }}</td>
         <td>{{ game.genre }}</td>
         <td>{{ game.note }}</td>
-        <!-- Botón para modificar -->
         <td>
           <p-button
             type="button"
@@ -42,11 +42,9 @@
             styleClass="p-button-rounded p-button-info"
             tooltip="Editar"
             tooltipOptions="{ position: 'top' }"
-            text
-            >
+            text>
           </p-button>
         </td>
-        <!-- Botón para eliminar -->
         <td>
           <p-button
             type="button"
@@ -55,8 +53,7 @@
             styleClass="p-button-rounded p-button-danger"
             tooltip="Eliminar"
             tooltipOptions="{ position: 'top' }"
-            text
-            >
+            text>
           </p-button>
         </td>
       </tr>

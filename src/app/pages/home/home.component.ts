@@ -2,17 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import {
   selectVideoGameList,
   selectLoading,
   selectTotalRecords,
   selectPageIndex,
-  selectPageSize,
-  selectFilters
+  selectPageSize
 } from '../../states/auth/selectors/table.selectors';
 import * as VideoGameActions from '../../states/auth/actions/table.actions';
 import { ButtonModule } from 'primeng/button';
@@ -30,7 +29,16 @@ export interface VideoGames {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TableModule, InputTextModule, FormsModule, ButtonModule, AddButtonComponent, UpdateButtonComponent, HeaderComponent],
+  imports: [
+    CommonModule,
+    TableModule,
+    InputTextModule,
+    ReactiveFormsModule, // Se importa ReactiveFormsModule en lugar de FormsModule
+    ButtonModule,
+    AddButtonComponent,
+    UpdateButtonComponent,
+    HeaderComponent
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -42,10 +50,10 @@ export class HomeComponent implements OnInit {
   pageSize$: Observable<number>;
   totalPages$: Observable<number>;
 
-  // Filtros sincronizados con NgRx
-  filters = { id: '', name: '', genre: '', note: '' };
+  // Formulario reactivo para los filtros
+  filterForm: FormGroup;
 
-  // Propiedades para el paginator
+  // Paginador
   first: number = 0;
   rows: number = 5;
   totalRecords: number = 0;
@@ -54,7 +62,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(UpdateButtonComponent) editComponent!: UpdateButtonComponent;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private fb: FormBuilder) {
     this.videoGames$ = this.store.select(selectVideoGameList);
     this.loading$ = this.store.select(selectLoading);
     this.totalRecords$ = this.store.select(selectTotalRecords);
@@ -65,7 +73,20 @@ export class HomeComponent implements OnInit {
       map(total => Math.ceil(total / this.rows))
     );
 
-    this.store.select(selectFilters).subscribe(f => this.filters = { ...f });
+    // Inicializamos el formulario con los controles para cada filtro
+    this.filterForm = this.fb.group({
+      id: [''],
+      name: [''],
+      genre: [''],
+      note: ['']
+    });
+
+    // Se suscribe a los cambios del formulario para actualizar los filtros en NgRx
+    this.filterForm.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(filters => {
+        this.store.dispatch(VideoGameActions.updateFilters({ filters }));
+      });
   }
 
   ngOnInit(): void {
@@ -74,10 +95,6 @@ export class HomeComponent implements OnInit {
     this.pageIndex$.subscribe(pageIndex => {
       this.first = pageIndex * this.rows;
     });
-  }
-
-  onFilterChange(): void {
-    this.store.dispatch(VideoGameActions.updateFilters({ filters: { ...this.filters } }));
   }
 
   onPageChange(event: any): void {

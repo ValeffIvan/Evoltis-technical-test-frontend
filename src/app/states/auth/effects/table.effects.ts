@@ -21,7 +21,6 @@ export class VideoGamesEffects {
         this.tableService.getVideoGames(pageIndex, pageSize, filters).pipe(
           map(response =>
             VideoGamesActions.loadVideoGamesSuccess({ data: response, total: response.length }),
-            VideoGamesActions.loadVideoGames()
           ),
           catchError(error => of(VideoGamesActions.loadVideoGamesFailure({ error })))
         )

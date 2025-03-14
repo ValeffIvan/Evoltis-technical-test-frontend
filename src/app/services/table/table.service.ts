@@ -32,12 +32,13 @@ export class TableService {
     if (filters.name) {
       params = params.set('name', filters.name);
     }
-    if (filters.description) {
-      params = params.set('description', filters.description);
+    if (filters.genre) {
+      params = params.set('genre', filters.genre);
     }
-    if (filters.note) {
+    if (filters.note !== null && filters.note !== undefined) {
       params = params.set('note', filters.note);
     }
+
 
     return this.http.get<VideoGames[]>(this.apiUrl, { params })
       .pipe(

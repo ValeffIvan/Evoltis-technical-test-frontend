@@ -27,7 +27,7 @@ const _VideoGamesReducer = createReducer(
   on(VideoGamesActions.updateFilters, (state, { filters }) => ({
     ...state,
     filters: { ...filters },
-    pageIndex: 0 // reinicia la página al aplicar nuevos filtros
+    pageIndex: 0
   })),
   on(VideoGamesActions.updatePage, (state, { pageIndex }) => ({
     ...state,
